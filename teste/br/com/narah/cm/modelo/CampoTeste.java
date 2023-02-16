@@ -1,10 +1,13 @@
 package br.com.narah.cm.modelo;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import br.com.narah.cm.excessao.ExplosaoException;
 
 public class CampoTeste {
 	
@@ -15,6 +18,7 @@ public class CampoTeste {
 	void iniciarCampo() {
 		campo = new Campo(3, 3);
 	}
+	
 	
 	@Test
 	void testeVizinhoDistancia1Esquerda () {
@@ -57,5 +61,51 @@ public class CampoTeste {
 		boolean resultado = campo.adicionarVizinho(vizinho);
 		assertFalse(resultado);
 	}	
+	
+	void testeValorPadraoAtributoMarcado() {
+		assertFalse(campo.isMarcado());
+	}
+	
+	@Test
+	void testeAlternarMarcacao() {
+		campo.alternarMarcacao();
+		assertTrue(campo.isMarcado());
+	}
+	
+	@Test
+	void testeAlternarMarcacaoDuasChamadas() {
+		campo.alternarMarcacao();
+		campo.alternarMarcacao();
+		assertFalse(campo.isMarcado());
+	}
+	
+	@Test
+	void testeAbrirCampoNaoMinadoNaoMarcado() {
+		assertTrue(campo.abrir());
+	}
+	
+	@Test
+	void testeAbrirNaoMinadoMarcado() {
+		campo.alternarMarcacao();
+		assertFalse(campo.abrir());
+	}
+	
+	@Test
+	void testeAbrirCampoMinadoMarcado() {
+		campo.alternarMarcacao();
+		campo.minar();
+		assertFalse(campo.abrir());
+	}
+	
+	@Test
+	void testeAbrirCampoMinadoNaoMarcado() {
+		campo.minar();
+		
+		assertThrows(ExplosaoException.class, () ->{
+			campo.abrir();
+		});
+	}
+	
+	
 
 }
