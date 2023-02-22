@@ -19,7 +19,7 @@ public class Tabuleiro {
 		
 		gerarCampos();
 		associarVizinhos();
-		sotearMinas();
+		sortearMinas();
 		
 	}
 
@@ -39,8 +39,24 @@ public class Tabuleiro {
 		}
 	}
 	
-	private void sotearMinas() {
+	private void sortearMinas() {
+		long minasArmadas = 0;
+		Predicate<Campo> minado = c -> c.isMinado();
 		
+		do {
+			minasArmadas = campos.stream().filter(minado).count();
+			int aleatorio =(int) (Math.random() * campos.size());
+			campos.get(aleatorio).minar();
+		}while(minasArmadas < minas);
+	}
+	
+	public boolean objetivoAlcançado() {
+		return campos.stream().allMatch(c -> c.objetivoAlcançado());
+	}
+	
+	public void reiniciar () {
+		campos.stream().forEach(c-> c.reiniciar());
+		sortearMinas();
 	}
 	
 }
