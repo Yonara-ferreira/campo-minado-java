@@ -2,7 +2,6 @@ package br.com.narah.cm.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import br.com.narah.cm.excessao.ExplosaoException;
 
@@ -42,6 +41,7 @@ public class Campo {
 		}else {
 			return false;
 		}
+		 
 	}
 	
 	void alternarMarcacao() {
@@ -132,6 +132,10 @@ public class Campo {
 			return "?";
 		}
 		
+	}
+
+	void setAberto(boolean aberto) {
+		this.aberto = aberto;
 	}
 	
 	
